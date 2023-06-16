@@ -1,12 +1,34 @@
 import { useState, useEffect } from "react";
 // import FormInput from "./components/FormInput";
-import { test, findId } from "../services/tests";
+import { getAllStudent, findId, addAlumni } from "../services/tests";
+
+const initialData = {
+  fname: "",
+  midname: "",
+  lname: "",
+  email: "",
+  telnum: 0,
+  graduation_years: 0,
+  address: "",
+  eng_program: true,
+  birthdate: "",
+  student_id: 0,
+  passport_id: 0,
+  card_id: "",
+  username: "",
+  password: "",
+  faculty_id: "",
+  department_id: "",
+  major_id: "",
+  gender: "",
+};
 
 function Register() {
   const [students, setStudents] = useState();
+  const [formRegister, setformRegister] = useState(initialData);
 
   const getStudent = () => {
-    test().then((res) => {
+    getAllStudent().then((res) => {
       setStudents(res);
     });
   };
@@ -17,12 +39,31 @@ function Register() {
     });
   };
 
+  const searchAlumni = () => {
+    findId(100).then((res) => {
+      setStudents(res);
+    });
+  };
+
+  const handleFormChange = (e) => {
+    setformRegister({
+      ...formRegister,
+      [e.target?.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    addAlumni(formRegister).then((res) => {
+      console.log("res ", res);
+    });
+  };
+
   useEffect(() => {
     // getStudent();
     getStudentById();
   }, []);
 
-  console.log("student ", students?.result[0]);
+  console.log("form ", formRegister);
 
   return (
     <>
@@ -93,7 +134,7 @@ function Register() {
                 </a>
                 <form class="search" action="##">
                   <input type="text" placeholder="Search" name="search" />
-                  <button type="submit">
+                  <button onClick={searchAlumni} type="submit">
                     <i class="fa fa-search"></i>
                   </button>
                 </form>
@@ -112,13 +153,14 @@ function Register() {
               id="inputUsername"
               class="form-control"
               aria-labelledby="UsernameHelpInline"
-              value={students?.result[0]?.username}
+              name="username"
+              onChange={(e) => handleFormChange(e)}
+              // value={students?.result[0]?.username}
             />
             <span id="UsernameHelpInline" class="form-text">
               Must be 8-20 characters long.
             </span>
           </div>
-
 
           <div class="password">
             <label for="inputPassword" class="col-form-label">
@@ -129,6 +171,8 @@ function Register() {
               id="inputPassword"
               class="form-control"
               aria-labelledby="passwordHelpInline"
+              name="password"
+              onChange={(e) => handleFormChange(e)}
             />
             <span id="passwordHelpInline" class="form-text">
               Must be 8-20 characters long.
@@ -144,6 +188,8 @@ function Register() {
               id="inputFirstname"
               class="form-control"
               aria-labelledby
+              name="fname"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -156,6 +202,8 @@ function Register() {
               id="inputMidname"
               class="form-control"
               aria-labelledby
+              name="midname"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -168,6 +216,8 @@ function Register() {
               id="inputLastname"
               class="form-control"
               aria-labelledby
+              name="lname"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -176,8 +226,10 @@ function Register() {
             <input
               class="form-check-input"
               type="radio"
-              name="flexRadioDefault"
               id="flexRadioMale"
+              name="gender"
+              value="male"
+              onChange={(e) => handleFormChange(e)}
             />
             <label class="gender" for="flexRadioDefault1">
               ชาย
@@ -187,8 +239,10 @@ function Register() {
             <input
               class="form-check-input"
               type="radio"
-              name="flexRadioDefault"
               id="flexRadioFemale"
+              name="gender"
+              value="female"
+              onChange={(e) => handleFormChange(e)}
             />
             <label class="gender" for="flexRadioDefault1">
               หญิง
@@ -204,6 +258,8 @@ function Register() {
               id="inputEmail"
               class="form-control"
               aria-labelledby
+              name="email"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -216,6 +272,36 @@ function Register() {
               id="inputStudentid"
               class="form-control"
               aria-labelledby
+              name="student_id"
+              onChange={(e) => handleFormChange(e)}
+            />
+          </div>
+
+          <div class="graduationyears">
+            <label for="inputGraduationyears" class="col-form-label">
+              ปีที่จบการศึกษา
+            </label>
+            <input
+              type="text"
+              id="inputGraduationyears"
+              class="form-control"
+              aria-labelledby
+              name="graduation_years"
+              onChange={(e) => handleFormChange(e)}
+            />
+          </div>
+
+          <div class="address">
+            <label for="inputAddress" class="col-form-label">
+              ที่อยู่
+            </label>
+            <input
+              type="text"
+              id="inputAddress"
+              class="form-control"
+              aria-labelledby
+              name="address"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -228,6 +314,8 @@ function Register() {
               id="inputFacultyid"
               class="form-control"
               aria-labelledby
+              name="faculty_id"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -240,6 +328,8 @@ function Register() {
               id="inputDepartmentid"
               class="form-control"
               aria-labelledby
+              name="department_id"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -252,6 +342,8 @@ function Register() {
               id="inputMajorid"
               class="form-control"
               aria-labelledby
+              name="major_id"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -264,6 +356,8 @@ function Register() {
               id="inputCardid"
               class="form-control"
               aria-labelledby
+              name="card_id"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -276,6 +370,8 @@ function Register() {
               id="inputPassportid"
               class="form-control"
               aria-labelledby
+              name="passport_id"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
 
@@ -288,6 +384,8 @@ function Register() {
               id="inputTelnumber"
               class="form-control"
               aria-labelledby
+              name="telnum"
+              onChange={(e) => handleFormChange(e)}
             />
           </div>
           <div class="mb-3">
@@ -296,19 +394,20 @@ function Register() {
               id="ticket"
               class="form-select"
               aria-label="Default select example"
+              name="eng_program"
+              onChange={(e) => handleFormChange(e)}
             >
               <option selected>หลักสูตร</option>
-              <option value="1">ธรรมดา</option>
-              <option value="2">นานาชาติ</option>
+              <option value={false}>ธรรมดา</option>
+              <option value={true}>นานาชาติ</option>
             </select>
           </div>
-
-          <a type="button" class="btn-clear" href="##">
+          <button class="btn-clear" type="button">
             ล้าง
-          </a>
-          <a type="button" class="btn-confirm" href="##">
+          </button>
+          <button onClick={handleSubmit} class="btn-clear" type="button">
             ยืนยัน
-          </a>
+          </button>
         </div>
       </div>
       <footer></footer>

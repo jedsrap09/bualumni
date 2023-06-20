@@ -1,5 +1,8 @@
 import axios from "axios";
 
+// const domain = "http://192.168.1.93:3030/";
+const local = "http://localhost:3030/";
+
 const config = {
   header: {
     "Content-Type": "application/json",
@@ -9,7 +12,7 @@ const config = {
 const getAllStudent = async () => {
   try {
     const response = await axios.get(
-      "http://192.168.1.93:3030/api/students/all",
+      local+"api/students/all",
       {
         config,
       }
@@ -24,7 +27,7 @@ const getAllStudent = async () => {
 const findId = async (id) => {
   try {
     const response = await axios.get(
-      `http://192.168.1.93:3030/api/students/search/${id}`,
+      `${local}api/students/search/${id}`,
       {
         config,
       }
@@ -40,7 +43,7 @@ const addAlumni = async (body) => {
   console.log(body);
   try {
     const response = await axios.post(
-      "http://192.168.1.93:3030/api/students/add-student",
+      local+"api/students/add-student",
       body,
       config
     );
